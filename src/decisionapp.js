@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
 import './Decisionapp.css';
-import displayQuestions from './displayData';
-import Displayquestions from './displayData';
 
 
 class Decisionapp extends Component {
