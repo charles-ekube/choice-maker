@@ -1,6 +1,5 @@
 import React from 'react';
 import './Decisionapp.css';
-import HandleRandomSelector from './randomselector';
 const Displayquestions = ({options,question}) => {
     let result = document.querySelector('.result');
     let getRandomNumber =(min, max) => {
@@ -20,17 +19,19 @@ const Displayquestions = ({options,question}) => {
   
 
         const questionList = question.map(input =>{
-            if (input.question != ""){
+            if (input.question !== ""){
                 return (
                     <div className='displayquestionss'>
                         <h1>Question</h1>
                     <h3>{input.question}</h3>
                 </div>
                 )
+            } else {
+                return null
             }
         })
         const optionList = options.map(inputs =>{
-            if ( inputs.optionA != "" && inputs.optionB != "" && inputs.optionC != "" && inputs.optionD !="") {
+            if ( inputs.optionA !== "" && inputs.optionB !== "" && inputs.optionC !== "" && inputs.optionD !=="") {
             return (
                 <section className='displayquestions'>                    
                 <div>
