@@ -1,63 +1,111 @@
 import React, {Component} from 'react';
-import './Decisionapp.css';
-import Navbar from './navbar';
-import Decisionapp from './decisionapp';
-import Displayquestions from './displayData';
-import HandleRandomSelector from './randomselector';
+import './App.css'
+import {ItemDisplay} from './ItemDisplay';
+import {Choiceapp} from './choiceapp';
 
 class App extends Component {
   state = {
-    options : [],
-    questions :[],
-    
+    question: "",
+    optionA: "",
+    optionB: "",
+    optionC: "",
+    optionD: "",
+    store : [
+      {
+        id:1,
+        question:'',
+        optionA:'',
+        optionB:'',
+        optionC:'',
+        optionD:'',
+      }
+    ] ,
+    options: [     
+      'optionA',
+      'optionB',
+      'optionC',
+      'optionD',
+    ],
+    RandomAnswer:'',
+  };
 
-  }
- 
-  newOption = (option)=> {
-    
-    option.id =Math.random();
-    let options = [...this.state.options, option]
+  handleInputChange =(e) => {
+    const target = e.target;
+    const value = target.value;
+    const name = target.name;
     this.setState({
-      options:options,
-    })
-  }
-  newQuestion = (question) => {
-    question.id =Math.random();
-    let questions = [...this.state.questions, question]
+      [name]:value
+    });
+  };
+
+  addItem = (e) => {
+    e.preventDefault();
+    const {question,optionA,optionB,optionC,optionD,} =this.state;
+    const storeInState = this.state.store;
+    const storeArrayLength = storeInState.length;
+    const id = storeArrayLength ? (storeInState[storeArrayLength-1].id+ 1):1;
     this.setState({
-      questions:questions,
+      store : [
+        ...storeInState,
+        Object.assign({}, {
+          id,
+          question,
+          optionA,
+          optionB,
+          optionC,
+          optionD,
+        })
+      ],
+      question:'',
+      optionA:'',
+      optionB:'',
+      optionC:'',
+      optionD:'',
     })
+
+  };
+  getRandomAnswer (min,max) {
+    let a = max - min +1;
+    let b = Math.random()*a;
+    let result = Math.floor(b)+ min;
+    return result;
   }
- 
- handleRandomSelector = () => {
-        let result = document.querySelector('.result');
-        this.props.options(this.state);
-       let getRandomNumber =(min, max) => {
-            let first = max- min + 1;
-            let second = Math.random() * first;
-            let result = Math.floor(second) + min;
-            return result;
-        }
-        let  index = getRandomNumber(0, this.newOption.length -1);
-        result.InnerText = this.newOption[index];
+    handleRandom = () => {
+      let index = this.getRandomAnswer(0,this.state.options.length-1);
+      this.setState({
+        RandomAnswer:this.state.options[index]
+      })
     }
+
   render() {
+    const {question,optionA,optionB,optionC,optionD, RandomAnswer} =this.state;
     return (
-      <div>
-        <Navbar/>       
-         <Decisionapp newOption={this.newOption} 
-         newQuestion={this.newQuestion}/>
-        <Displayquestions
-           handleRandomSelector={()=> this.handleRandomSelector}
-        options={this.state.options}
-        question={this.state.questions}
-        newOption={this.newOption} 
-        newQuestion={this.newQuestion} 
-     /> 
-     <HandleRandomSelector  newOption={this.newOption} 
-         newQuestion={this.newQuestion}/>
-      </div>
-    
+      <section>
+        <div>
+          <Choiceapp
+            question={question}
+            optionA={optionA}
+            optionB={optionB}
+            optionC={optionC}
+            optionD={optionD}
+            onChange={this.handleInputChange}
+            onSubmit={this.addItem}
+          />
+        </div>
+        <div>
+          {
+            this.state.store.map((item, index) =>
+              <ItemDisplay
+                key={item.id}
+                index={index}
+                item={item}
+                RandomAnswer={RandomAnswer}
+                handleRandom={this.handleRandom}
+              />
+            )
+          }
+        </div>
+      </section>
     )
   }
 }
