@@ -68,7 +68,7 @@ nav {
 }
 
 @media only screen and (max-width:500px) {
-    body {
+    .homeSection {
         padding:10px;
     }
     .display-section {
