@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import './App.css'
+impoort Navbar from './navbar';
 import {ItemDisplay} from './ItemDisplay';
 import {Choiceapp} from './choiceapp';
 
@@ -82,6 +83,7 @@ class App extends Component {
     return (
       <section>
         <div>
+          <Navbar/>
           <Choiceapp
             question={question}
             optionA={optionA}
