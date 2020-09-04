@@ -82,8 +82,8 @@ class App extends Component {
     const {question,optionA,optionB,optionC,optionD, RandomAnswer} =this.state;
     return (
       <section>
+       <Navbar/>
         <div>
-          <Navbar/>
           <Choiceapp
             question={question}
             optionA={optionA}
